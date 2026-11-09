@@ -1,0 +1,83 @@
+/* ------------------------------------------------------------------
+   UI Farm — theme tokens
+   Drop this into your global stylesheet. Same variable names and values
+   so every component matches the rest of the product immediately.
+
+   Dark is the default. Light is opt-in: set data-theme="light" on <html>.
+   ------------------------------------------------------------------ */
+
+:root {
+  color-scheme: dark;
+
+  --background: #020817;
+  --foreground: #f8fafc;
+
+  --surface: #0f172a;
+  --surface-muted: #1e293b;
+  --border: rgba(148, 163, 184, 0.15);
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+
+  --secondary: #0ea5e9;
+  --secondary-foreground: #ffffff;
+
+  --accent: #14b8a6;
+  --accent-foreground: #ffffff;
+
+  --muted: #94a3b8;
+  --muted-foreground: #cbd5e1;
+
+  --danger: #ef4444;
+  --success: #22c55e;
+  --warning: #f59e0b;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  --surface: #f8fafc;
+  --surface-muted: #f1f5f9;
+  --border: rgba(15, 23, 42, 0.1);
+
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+
+  --secondary: #0284c7;
+  --secondary-foreground: #ffffff;
+
+  --accent: #0d9488;
+  --accent-foreground: #ffffff;
+
+  --muted: #64748b;
+  --muted-foreground: #475569;
+
+  --danger: #dc2626;
+  --success: #16a34a;
+  --warning: #d97706;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
