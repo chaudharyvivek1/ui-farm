@@ -6,9 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { CodeTabs } from '@/components/site/code-tabs';
 import { Demo } from '@/components/site/demos';
 import { Preview, PropsTable } from '@/components/site/preview';
+import { StylePanel } from '@/components/site/style-panel';
 import { highlight } from '@/lib/highlight';
 import { components, getComponent } from '@/lib/registry';
 import { getCodeVariants } from '@/lib/snippets';
+import { getComponentStyles } from '@/lib/style-systems';
 import { getUsage } from '@/lib/usage';
 
 export function generateStaticParams() {
@@ -39,6 +41,7 @@ export default async function ComponentPage({
   if (!meta) notFound();
 
   const variants = await getCodeVariants(slug);
+  const styleRows = getComponentStyles(slug);
   const usageSource = getUsage(slug);
   const usageHtml = usageSource ? await highlight(usageSource, 'tsx') : '';
 
@@ -74,8 +77,17 @@ export default async function ComponentPage({
         </Preview>
       </section>
 
-      <section className="mt-6">
-        <CodeTabs variants={variants} />
+      <section className="mt-8">
+        <h2 className="mb-3 text-xl font-bold tracking-tight">Code</h2>
+        {styleRows.length ? (
+          <StylePanel
+            name={meta.name}
+            rows={styleRows}
+            code={<CodeTabs variants={variants} />}
+          />
+        ) : (
+          <CodeTabs variants={variants} />
+        )}
       </section>
 
       <section className="mt-10">

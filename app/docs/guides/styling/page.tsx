@@ -79,6 +79,12 @@ export default async function StylingGuide() {
         project already uses — the colours, radii and spacing come out the same.
       </p>
 
+      <div className="mt-6 rounded-xl border border-[var(--border)] bg-[var(--surface)] p-4 text-sm leading-relaxed text-[var(--muted-foreground)]">
+        Every component page carries the same four-way switch. Pick a system and it lists the
+        exact class — or MUI component — for each element of that component, with a copy button on
+        every row, so you never have to guess which class a variant becomes.
+      </div>
+
       <div className="mt-8 overflow-x-auto rounded-xl border border-[var(--border)]">
         <table className="w-full border-collapse text-left text-sm">
           <thead>

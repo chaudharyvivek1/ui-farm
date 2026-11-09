@@ -25,6 +25,8 @@ All notable changes to this project are documented here. The format follows
 - Plain-CSS build (`registry/css/ui-farm.css`), a Bootstrap 5 bridge and a Material UI
   theme, all on the same tokens.
 - Command palette (⌘K) for the docs site, and guides for templates and styling.
+- Per-component styling switch: Tailwind, plain CSS, Bootstrap 5 and Material UI, with
+  the exact class or component for each element and a copy button per row.
 
 ## [0.1.0] — 2026-11-09
 

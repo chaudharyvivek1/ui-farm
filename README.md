@@ -42,6 +42,8 @@ React and in Angular, and what makes dark and light mode switch without a re-ren
 | Material UI | React apps already on MUI | `registry/mui/theme.ts` |
 
 All four read the same token names, so the colours match across a page that mixes them.
+Each component page has a switch for the four systems: choose one and it lists the exact
+class (or MUI component) for every element of that component, with a copy button per row.
 
 ## Server-rendered templates (EJS)
 
