@@ -1,0 +1,97 @@
+/* ==========================================================================
+   UI Farm → Bootstrap 5 bridge
+   Load order:
+     <link rel="stylesheet" href="/css/bootstrap.min.css" />
+     <link rel="stylesheet" href="/css/ui-farm.css" />
+     <link rel="stylesheet" href="/css/ui-farm-bootstrap.css" />
+   This file maps the design tokens onto Bootstrap's own variables, so the
+   uif-* classes inherit your Bootstrap theme (including dark mode via
+   data-bs-theme="dark").
+   ========================================================================== */
+
+:root,
+[data-bs-theme="dark"] {
+  --background: var(--bs-body-bg, #020817);
+  --foreground: var(--bs-body-color, #f8fafc);
+  --surface: var(--bs-tertiary-bg, #0f172a);
+  --surface-muted: var(--bs-secondary-bg, #1e293b);
+  --border: var(--bs-border-color, rgba(148, 163, 184, 0.15));
+
+  --primary: var(--bs-primary, #3b82f6);
+  --secondary: var(--bs-secondary, #0ea5e9);
+  --accent: var(--bs-teal, #14b8a6);
+  --danger: var(--bs-danger, #ef4444);
+  --success: var(--bs-success, #22c55e);
+  --warning: var(--bs-warning, #f59e0b);
+
+  --muted: var(--bs-secondary-color, #94a3b8);
+  --muted-foreground: var(--bs-body-color, #cbd5e1);
+
+  --radius-sm: var(--bs-border-radius-sm, 8px);
+  --radius-md: var(--bs-border-radius, 12px);
+  --radius-lg: var(--bs-border-radius-lg, 16px);
+  --radius-pill: var(--bs-border-radius-pill, 999px);
+}
+
+/* Buttons: use Bootstrap's padding scale so they sit next to .btn without
+   looking like a different system. */
+.uif-btn {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-btn-font-size, 0.9375rem);
+  line-height: var(--bs-btn-line-height, 1.5);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 1.25rem;
+  border: 1px solid transparent;
+}
+
+.uif-btn--sm { padding: 0.3rem 0.85rem; font-size: 0.8125rem; }
+.uif-btn--lg { padding: 0.75rem 1.75rem; font-size: 1.0625rem; }
+
+.uif-btn--primary { background-color: var(--bs-primary); color: #fff; }
+.uif-btn--secondary { background-color: var(--bs-secondary); color: #fff; }
+.uif-btn--accent { background-color: var(--bs-teal); color: #fff; }
+.uif-btn--danger { background-color: var(--bs-danger); color: #fff; }
+
+.uif-btn--outline {
+  border-color: var(--bs-border-color);
+  color: var(--bs-body-color);
+  background: transparent;
+}
+.uif-btn--outline:hover { border-color: var(--bs-primary); color: var(--bs-primary); }
+
+.uif-btn--ghost { color: var(--bs-body-color); background: transparent; }
+.uif-btn--ghost:hover { background: var(--bs-tertiary-bg); }
+
+/* Inputs: match .form-control height and focus ring. */
+.uif-input,
+.uif-select,
+.uif-textarea {
+  font-family: var(--bs-body-font-family);
+  font-size: var(--bs-body-font-size, 0.9375rem);
+  padding: 0.4375rem 0.75rem;
+  border-color: var(--bs-border-color);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  border-radius: var(--bs-border-radius);
+}
+
+.uif-input:focus,
+.uif-select:focus,
+.uif-textarea:focus {
+  border-color: var(--bs-primary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb, 59, 130, 246), 0.25);
+}
+
+.uif-input--invalid,
+.uif-input[aria-invalid="true"] { border-color: var(--bs-danger); }
+
+/* Table: inherit Bootstrap's cell padding and borders. */
+.uif-table-wrap { border-color: var(--bs-border-color); }
+.uif-table th { background: var(--bs-tertiary-bg); color: var(--bs-secondary-color); }
+.uif-table td { border-top-color: var(--bs-border-color); color: var(--bs-body-color); }
+.uif-table tbody tr:hover { background: var(--bs-tertiary-bg); }
+
+/* Cards and alerts follow Bootstrap surfaces. */
+.uif-card { background: var(--bs-body-bg); border-color: var(--bs-border-color); }
+.uif-alert { border-color: var(--bs-border-color); background: var(--bs-tertiary-bg); }
+.uif-menu__panel { background: var(--bs-body-bg); border-color: var(--bs-border-color); }

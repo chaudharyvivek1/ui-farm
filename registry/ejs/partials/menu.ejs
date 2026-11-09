@@ -1,0 +1,18 @@
+<%#
+  Action menu — works without JavaScript by using <details>
+  locals: label, items [{ label, href, danger, disabled }]
+%>
+<details class="uif-menu">
+  <summary class="uif-btn uif-btn--ghost uif-btn--sm" aria-label="Row actions">
+    <span aria-hidden="true">⋮</span><span class="uif-visually-hidden"><%= locals.label || 'Actions' %></span>
+  </summary>
+  <div class="uif-menu__panel">
+    <% (locals.items || []).forEach(function (item) { %>
+      <% if (item.href && !item.disabled) { %>
+        <a class="uif-menu__item<%= item.danger ? ' uif-menu__item--danger' : '' %>" href="<%= item.href %>"><%= item.label %></a>
+      <% } else { %>
+        <button type="button" class="uif-menu__item<%= item.danger ? ' uif-menu__item--danger' : '' %>" <%= item.disabled ? 'disabled' : '' %>><%= item.label %></button>
+      <% } %>
+    <% }); %>
+  </div>
+</details>

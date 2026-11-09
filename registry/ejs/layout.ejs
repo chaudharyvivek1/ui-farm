@@ -1,0 +1,28 @@
+<%#
+  Page shell. Most projects render it from their own view with the body
+  already assembled:
+
+    res.render('layout', { title: 'Invoices', content: bodyHtml, nav: navHtml })
+
+  For a full page built from partials, see example/views/invoices.ejs — that
+  pattern is easier to read than passing HTML strings around.
+
+  locals: title, description, theme (dark|light), stylesheet, nav, content, footer
+%>
+<!doctype html>
+<html lang="en" data-theme="<%= locals.theme || 'dark' %>">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= locals.title || 'App' %></title>
+    <% if (locals.description) { %><meta name="description" content="<%= locals.description %>" /><% } %>
+    <link rel="stylesheet" href="<%= locals.stylesheet || '/css/ui-farm.css' %>" />
+  </head>
+  <body>
+    <%- locals.nav || '' %>
+    <main class="uif-container" style="padding-block: 32px;">
+      <%- locals.content || '' %>
+    </main>
+    <%- locals.footer || '' %>
+  </body>
+</html>

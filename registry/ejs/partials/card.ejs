@@ -1,0 +1,18 @@
+<%#
+  Card
+  locals: title, description, body (html), footer (html), interactive, class
+%>
+<div class="uif-card<%= locals.interactive ? ' uif-card--interactive' : '' %><%= locals.class ? ' ' + locals.class : '' %>">
+  <% if (locals.title || locals.description) { %>
+    <div class="uif-card__header">
+      <% if (locals.title) { %><h3 class="uif-card__title"><%= locals.title %></h3><% } %>
+      <% if (locals.description) { %><p class="uif-card__desc"><%= locals.description %></p><% } %>
+    </div>
+  <% } %>
+
+  <%- locals.body || '' %>
+
+  <% if (locals.footer) { %>
+    <div class="uif-card__footer"><%- locals.footer %></div>
+  <% } %>
+</div>

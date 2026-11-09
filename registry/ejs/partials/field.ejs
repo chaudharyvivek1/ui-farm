@@ -1,0 +1,87 @@
+<%#
+  Field — one partial for text, number, currency, phone, password, select, textarea
+  locals:
+    name, label, type, value, placeholder, hint, error, required, disabled,
+    prefix, suffix, options [{label, value, selected}], rows, step, min, max,
+    maxlength, showCounter, autocomplete
+%>
+<%
+  const type = locals.type || 'text';
+  const id = 'f-' + (locals.name || Math.random().toString(36).slice(2, 8));
+  const invalid = Boolean(locals.error);
+  const controlClass = ['uif-input', invalid ? 'uif-input--invalid' : ''].filter(Boolean).join(' ');
+  const inputType = type === 'currency' ? 'text' : type;
+%>
+<div class="uif-field">
+  <% if (locals.label) { %>
+    <label class="uif-label" for="<%= id %>">
+      <span>
+        <%= locals.label %>
+        <% if (locals.required) { %><span class="uif-required" aria-hidden="true">*</span><% } %>
+      </span>
+      <% if (locals.hint && !locals.error) { %><span class="uif-label__hint"><%= locals.hint %></span><% } %>
+    </label>
+  <% } %>
+
+  <% if (type === 'select') { %>
+    <select
+      id="<%= id %>"
+      name="<%= locals.name || '' %>"
+      class="uif-select"
+      <%= locals.required ? 'required' : '' %>
+      <%= locals.disabled ? 'disabled' : '' %>
+      <%= invalid ? 'aria-invalid="true"' : '' %>
+    >
+      <% (locals.options || []).forEach(function (option) { %>
+        <option value="<%= option.value %>"<%= option.selected ? ' selected' : '' %>><%= option.label %></option>
+      <% }); %>
+    </select>
+  <% } else if (type === 'textarea') { %>
+    <textarea
+      id="<%= id %>"
+      name="<%= locals.name || '' %>"
+      class="uif-textarea"
+      rows="<%= locals.rows || 4 %>"
+      placeholder="<%= locals.placeholder || '' %>"
+      <%= locals.required ? 'required' : '' %>
+      <%= locals.disabled ? 'disabled' : '' %>
+      <%= locals.maxlength ? 'maxlength="' + locals.maxlength + '"' : '' %>
+      <%= invalid ? 'aria-invalid="true"' : '' %>
+    ><%= locals.value || '' %></textarea>
+  <% } else { %>
+    <div class="<%= locals.prefix || locals.suffix ? 'uif-input-group' : '' %>">
+      <% if (locals.prefix) { %><span class="uif-input-group__prefix"><%= locals.prefix %></span><% } %>
+
+      <input
+        id="<%= id %>"
+        type="<%= inputType %>"
+        name="<%= locals.name || '' %>"
+        class="<%= controlClass %><%= type === 'number' || type === 'currency' ? ' uif-input--number' : '' %>"
+        value="<%= locals.value !== undefined && locals.value !== null ? locals.value : '' %>"
+        placeholder="<%= locals.placeholder || '' %>"
+        <%= locals.required ? 'required' : '' %>
+        <%= locals.disabled ? 'disabled' : '' %>
+        <%= locals.maxlength ? 'maxlength="' + locals.maxlength + '"' : '' %>
+        <%= type === 'number' || type === 'currency' ? 'inputmode="decimal"' : '' %>
+        <%= type === 'tel' ? 'inputmode="numeric" autocomplete="tel-national"' : '' %>
+        <%= locals.step ? 'step="' + locals.step + '"' : '' %>
+        <%= locals.min !== undefined ? 'min="' + locals.min + '"' : '' %>
+        <%= locals.max !== undefined ? 'max="' + locals.max + '"' : '' %>
+        <%= locals.autocomplete ? 'autocomplete="' + locals.autocomplete + '"' : '' %>
+        <%= invalid ? 'aria-invalid="true"' : '' %>
+      />
+
+      <% if (locals.suffix) { %><span class="uif-input-group__suffix"><%= locals.suffix %></span><% } %>
+    </div>
+  <% } %>
+
+  <% if (locals.error) { %>
+    <p class="uif-error" role="alert"><%= locals.error %></p>
+  <% } else if (!locals.label && locals.hint) { %>
+    <p class="uif-hint"><%= locals.hint %></p>
+  <% } %>
+
+  <% if (locals.showCounter && locals.maxlength) { %>
+    <p class="uif-counter"><%= String(locals.value || '').length %> / <%= locals.maxlength %></p>
+  <% } %>
+</div>

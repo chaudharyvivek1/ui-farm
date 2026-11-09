@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/ui-farm.css" />
+  </head>
+  <body>
+    <%- include('../partials/nav', {
+      brand: 'Acme',
+      links: [
+        { label: 'Invoices', href: '/invoices', active: true },
+        { label: 'Clients', href: '/clients' },
+      ],
+      actions: include('../partials/button', { label: 'New invoice', href: '/invoices/new', size: 'sm' }),
+    }) %>
+
+    <main class="uif-container" style="padding-block: 32px;">
+      <%- include('../partials/breadcrumbs', {
+        items: [{ label: 'Home', href: '/' }, { label: 'Invoices' }],
+      }) %>
+
+      <%- include('../partials/page-header', {
+        title: 'Invoices',
+        subtitle: 'October 2026',
+        actions: include('../partials/button', { label: 'New invoice', href: '/invoices/new' }),
+      }) %>
+
+      <%- include('../partials/stats', {
+        items: [
+          { label: 'Raised', value: '₹4,62,500' },
+          { label: 'Collected', value: '₹3,34,000' },
+          { label: 'Overdue', value: '1' },
+        ],
+      }) %>
+
+      <div style="margin-top: 24px;">
+        <%- include('../partials/table', {
+          caption: 'Invoices raised in October 2026.',
+          columns: [
+            { key: 'id', label: 'Invoice', type: 'text' },
+            { key: 'client', label: 'Client', type: 'text' },
+            { key: 'amount', label: 'Amount', type: 'currency', align: 'right' },
+            { key: 'due', label: 'Due', type: 'date' },
+            { key: 'status', label: 'Status', type: 'badge' },
+          ],
+          rows: invoices,
+          actions: [
+            { label: 'View', href: '/invoices/:id' },
+            { label: 'Delete', href: '/invoices/:id/delete', danger: true },
+          ],
+        }) %>
+      </div>
+
+      <%- include('../partials/pagination', {
+        page: page,
+        pageCount: pageCount,
+        total: total,
+        pageSize: pageSize,
+        baseUrl: '/invoices?page=',
+      }) %>
+    </main>
+
+    <%- include('../partials/footer', { brand: 'Acme' }) %>
+  </body>
+</html>

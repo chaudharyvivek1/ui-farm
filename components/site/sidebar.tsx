@@ -9,6 +9,8 @@ const guides = [
   { label: 'Introduction', href: '/docs' },
   { label: 'Installation', href: '/docs/installation' },
   { label: 'Theming', href: '/docs/theming' },
+  { label: 'Templates (EJS)', href: '/docs/guides/ejs' },
+  { label: 'Styling options', href: '/docs/guides/styling' },
 ];
 
 export function Sidebar() {

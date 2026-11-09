@@ -1,0 +1,29 @@
+<%#
+  Button
+  locals: label, href, variant, size, type, name, value, disabled, icon (html), class
+%>
+<%
+  const variant = locals.variant || 'primary';
+  const size = locals.size || 'md';
+  const classes = [
+    'uif-btn',
+    'uif-btn--' + variant,
+    size !== 'md' ? 'uif-btn--' + size : '',
+    locals.class || '',
+  ].filter(Boolean).join(' ');
+%>
+<% if (locals.href) { %>
+  <a href="<%= locals.href %>" class="<%= classes %>"<%= locals.disabled ? ' aria-disabled="true"' : '' %>>
+    <%- locals.icon || '' %><%= locals.label || 'Button' %>
+  </a>
+<% } else { %>
+  <button
+    type="<%= locals.type || 'button' %>"
+    class="<%= classes %>"
+    <%= locals.name ? 'name="' + locals.name + '"' : '' %>
+    <%= locals.value !== undefined ? 'value="' + locals.value + '"' : '' %>
+    <%= locals.disabled ? 'disabled' : '' %>
+  >
+    <%- locals.icon || '' %><%= locals.label || 'Button' %>
+  </button>
+<% } %>

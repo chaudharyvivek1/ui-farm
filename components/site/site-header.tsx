@@ -4,13 +4,15 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { SearchTrigger } from './command-palette';
 import { ThemeToggle } from './theme-toggle';
 
 const links = [
   { label: 'Docs', href: '/docs' },
   { label: 'Components', href: '/docs/components' },
   { label: 'Install', href: '/docs/installation' },
-  { label: 'Theming', href: '/docs/theming' },
+  { label: 'Templates', href: '/docs/guides/ejs' },
+  { label: 'Styling', href: '/docs/guides/styling' },
 ];
 
 export function SiteHeader() {
@@ -75,6 +77,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2.5">
+          <SearchTrigger className="hidden lg:inline-flex" label="Search" />
           <ThemeToggle />
           <a
             href="https://github.com/chaudharyvivek1/ui-farm"

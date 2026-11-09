@@ -1,0 +1,18 @@
+<%#
+  Top navigation
+  locals: brand, home, links [{ label, href, active }], actions (html)
+%>
+<nav class="uif-nav">
+  <a class="uif-nav__brand" href="<%= locals.home || '/' %>">
+    <span class="uif-nav__mark" aria-hidden="true"><%= (locals.brand || 'U').charAt(0) %></span>
+    <%= locals.brand || 'App' %>
+  </a>
+
+  <div class="uif-nav__links">
+    <% (locals.links || []).forEach(function (link) { %>
+      <a class="uif-nav__link" href="<%= link.href %>"<%= link.active ? ' aria-current="page"' : '' %>><%= link.label %></a>
+    <% }); %>
+  </div>
+
+  <div class="uif-nav__actions"><%- locals.actions || '' %></div>
+</nav>

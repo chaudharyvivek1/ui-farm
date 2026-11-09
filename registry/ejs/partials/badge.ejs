@@ -1,0 +1,8 @@
+<%#
+  Badge
+  locals: label, tone (default|primary|accent|success|warning|danger|outline), dot
+%>
+<span class="uif-badge uif-badge--<%= locals.tone || 'default' %>">
+  <% if (locals.dot) { %><span class="uif-badge__dot" aria-hidden="true"></span><% } %>
+  <%= locals.label || '' %>
+</span>

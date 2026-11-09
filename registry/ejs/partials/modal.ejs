@@ -1,0 +1,18 @@
+<%#
+  Modal — native <dialog>, opened with dialog.showModal()
+  locals: id, title, body (html), confirmLabel, cancelLabel
+%>
+<dialog class="uif-modal" id="<%= locals.id || 'modal' %>">
+  <div class="uif-modal__panel">
+    <h2 class="uif-modal__title"><%= locals.title || 'Confirm' %></h2>
+    <div class="uif-modal__body"><%- locals.body || '' %></div>
+    <div class="uif-modal__footer">
+      <button type="button" class="uif-btn uif-btn--outline uif-btn--sm" onclick="this.closest('dialog').close()">
+        <%= locals.cancelLabel || 'Cancel' %>
+      </button>
+      <button type="submit" class="uif-btn uif-btn--primary uif-btn--sm">
+        <%= locals.confirmLabel || 'Confirm' %>
+      </button>
+    </div>
+  </div>
+</dialog>

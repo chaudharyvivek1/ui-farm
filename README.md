@@ -32,6 +32,27 @@ React and in Angular, and what makes dark and light mode switch without a re-ren
 
 ---
 
+## Four styling systems
+
+| System | Use it with | Copy |
+| --- | --- | --- |
+| Tailwind CSS | React, Next.js, Angular components | nothing beyond `theme.css` |
+| Plain CSS | EJS templates, plain HTML, any server-rendered app | `registry/css/ui-farm.css` |
+| Bootstrap 5 | existing Bootstrap apps | `registry/bootstrap/ui-farm-bootstrap.css` |
+| Material UI | React apps already on MUI | `registry/mui/theme.ts` |
+
+All four read the same token names, so the colours match across a page that mixes them.
+
+## Server-rendered templates (EJS)
+
+`registry/ejs/` holds sixteen partials for Express: layout, nav, footer, page header,
+breadcrumbs, button, badge, card, alert, field (text/number/currency/phone/password/
+select/textarea), table, pagination, menu, modal, stats and empty state. Each takes
+locals with defaults, so you include one partial instead of rewriting markup. They use
+the plain-CSS build and need no client JavaScript — the menu is a `<details>` element
+and the modal is a native `<dialog>`. See `registry/ejs/README.md` for the locals
+reference and `registry/ejs/example/` for a runnable Express app.
+
 ## Components
 
 | Category | Components |
@@ -110,6 +131,10 @@ lib/
   generated/js/                  JavaScript variants (generated — do not edit)
 registry/
   angular/                       Angular standalone components
+  ejs/                           Express + EJS partials, layout and example app
+  css/ui-farm.css                plain-CSS build (semantic uif-* classes)
+  bootstrap/ui-farm-bootstrap.css  maps the tokens onto Bootstrap 5 variables
+  mui/theme.ts                   Material UI theme built from the same palette
   theme.css                      the token file consumers copy
 scripts/
   build-snippets.mjs             TSX → JSX via esbuild

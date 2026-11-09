@@ -1,0 +1,7 @@
+<%#
+  Footer
+  locals: brand, year
+%>
+<footer class="uif-container" style="padding: 32px 20px; color: var(--muted); font-size: 13px;">
+  © <%= locals.year || new Date().getFullYear() %> <%= locals.brand || 'App' %>
+</footer>

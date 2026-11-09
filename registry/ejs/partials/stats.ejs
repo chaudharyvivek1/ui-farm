@@ -1,0 +1,12 @@
+<%#
+  Stat row
+  locals: items [{ label, value, hint }]
+%>
+<div class="uif-stats">
+  <% (locals.items || []).forEach(function (item) { %>
+    <div class="uif-stat">
+      <div class="uif-stat__value"><%= item.value %></div>
+      <div class="uif-stat__label"><%= item.label %></div>
+    </div>
+  <% }); %>
+</div>

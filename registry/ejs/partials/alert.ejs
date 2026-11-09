@@ -1,0 +1,11 @@
+<%#
+  Alert / flash message
+  locals: tone (info|success|warning|danger), title, message (html), dismissible
+%>
+<div class="uif-alert<%= locals.tone && locals.tone !== 'info' ? ' uif-alert--' + locals.tone : '' %>"
+     role="<%= locals.tone === 'danger' ? 'alert' : 'status' %>">
+  <div>
+    <% if (locals.title) { %><strong class="uif-alert__title"><%= locals.title %></strong><% } %>
+    <%- locals.message || '' %>
+  </div>
+</div>

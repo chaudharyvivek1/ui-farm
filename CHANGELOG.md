@@ -21,6 +21,10 @@ All notable changes to this project are documented here. The format follows
   client-side paging, skeleton rows, empty state, and an actions column that
   switches between inline buttons and a menu.
 - Angular versions of all seven new components.
+- Sixteen EJS partials for Express with a locals reference and a runnable example.
+- Plain-CSS build (`registry/css/ui-farm.css`), a Bootstrap 5 bridge and a Material UI
+  theme, all on the same tokens.
+- Command palette (⌘K) for the docs site, and guides for templates and styling.
 
 ## [0.1.0] — 2026-11-09
 

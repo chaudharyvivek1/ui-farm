@@ -1,0 +1,14 @@
+<%#
+  Breadcrumbs
+  locals: items [{ label, href }] — the last one is the current page
+%>
+<nav class="uif-breadcrumbs" aria-label="Breadcrumb">
+  <% (locals.items || []).forEach(function (item, index, all) { %>
+    <% if (index > 0) { %><span class="uif-breadcrumbs__sep" aria-hidden="true">/</span><% } %>
+    <% if (item.href && index < all.length - 1) { %>
+      <a href="<%= item.href %>"><%= item.label %></a>
+    <% } else { %>
+      <span aria-current="page"><%= item.label %></span>
+    <% } %>
+  <% }); %>
+</nav>

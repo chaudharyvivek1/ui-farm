@@ -1,0 +1,11 @@
+<%#
+  Empty state
+  locals: title, text, actionLabel, actionHref
+%>
+<div class="uif-empty">
+  <p class="uif-empty__title"><%= locals.title || 'Nothing here yet' %></p>
+  <% if (locals.text) { %><p class="uif-empty__text"><%= locals.text %></p><% } %>
+  <% if (locals.actionLabel) { %>
+    <a class="uif-btn uif-btn--primary uif-btn--sm" href="<%= locals.actionHref || '#' %>"><%= locals.actionLabel %></a>
+  <% } %>
+</div>

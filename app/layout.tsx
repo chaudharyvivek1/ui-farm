@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 
+import { CommandPalette } from '@/components/site/command-palette';
 import { SiteHeader } from '@/components/site/site-header';
 
 import './globals.css';
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen antialiased">
         <SiteHeader />
         {children}
+        <CommandPalette />
       </body>
     </html>
   );

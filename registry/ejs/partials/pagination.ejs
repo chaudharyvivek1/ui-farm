@@ -1,0 +1,21 @@
+<%#
+  Pagination
+  locals: page (1-based), pageCount, total, pageSize, baseUrl (e.g. "/invoices?page=")
+%>
+<%
+  const page = Number(locals.page || 1);
+  const pageCount = Number(locals.pageCount || 1);
+  const pageSize = Number(locals.pageSize || 10);
+  const total = Number(locals.total || 0);
+  const from = total === 0 ? 0 : (page - 1) * pageSize + 1;
+  const to = Math.min(page * pageSize, total);
+  const base = locals.baseUrl || '?page=';
+%>
+<nav class="uif-pagination" aria-label="Pagination">
+  <span>Showing <%= from %>–<%= to %> of <%= total %></span>
+  <span class="uif-row">
+    <a class="uif-pagination__btn" href="<%= base + (page - 1) %>" <%= page <= 1 ? 'aria-disabled="true"' : '' %>>Previous</a>
+    <span>Page <%= page %> of <%= pageCount %></span>
+    <a class="uif-pagination__btn" href="<%= base + (page + 1) %>" <%= page >= pageCount ? 'aria-disabled="true"' : '' %>>Next</a>
+  </span>
+</nav>

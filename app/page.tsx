@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import { SearchTrigger } from '@/components/site/command-palette';
+
 import { Badge } from '@/components/ui/badge';
 import { buttonStyles } from '@/components/ui/button';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -71,7 +73,14 @@ export default async function HomePage() {
               prop by prop.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-8 max-w-xl">
+              <SearchTrigger
+                className="w-full justify-start !rounded-xl !border-[var(--border)] !px-4 !py-3 text-left"
+                label={`Search ${stats.components} components, props and guides…`}
+              />
+            </div>
+
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <Link href="/docs/components" className={buttonStyles('primary', 'md')}>
                 Browse components
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="size-4" aria-hidden="true">

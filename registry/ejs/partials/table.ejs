@@ -1,0 +1,89 @@
+<%#
+  Data table
+  locals:
+    columns [{ key, label, align, type: text|number|currency|date|badge, class }]
+    rows    [{ ... }]
+    caption, empty, striped, dense
+    actions [{ label, href, danger }]  — rendered in a trailing Actions column
+    rowActionName  — when set, the action href may use :id
+%>
+<%
+  const columns = locals.columns || [];
+  const rows = locals.rows || [];
+  const actions = locals.actions || [];
+  const money = function (value) {
+    const n = Number(value);
+    if (Number.isNaN(n)) return '—';
+    const fixed = Math.abs(n).toFixed(2).split('.');
+    const grouped = fixed[0].length > 3
+      ? fixed[0].slice(0, -3).replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + fixed[0].slice(-3)
+      : fixed[0];
+    return '₹' + grouped + '.' + fixed[1];
+  };
+  const dateText = function (value) {
+    const d = new Date(value);
+    return Number.isNaN(d.getTime())
+      ? '—'
+      : d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+  const toneFor = { Paid: 'success', Pending: 'warning', Overdue: 'danger', Active: 'success', Draft: 'outline' };
+%>
+<div class="uif-table-wrap">
+  <table class="uif-table<%= locals.striped ? ' uif-table--striped' : '' %><%= locals.dense ? ' uif-table--dense' : '' %>">
+    <% if (locals.caption) { %><caption class="uif-table__caption"><%= locals.caption %></caption><% } %>
+
+    <thead>
+      <tr>
+        <% columns.forEach(function (column) { %>
+          <th class="uif-align-<%= column.align || 'left' %>"><%= column.label %></th>
+        <% }); %>
+        <% if (actions.length) { %><th class="uif-align-right">Actions</th><% } %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if (!rows.length) { %>
+        <tr>
+          <td class="uif-table__empty" colspan="<%= columns.length + (actions.length ? 1 : 0) %>">
+            <%= locals.empty || 'No records yet.' %>
+          </td>
+        </tr>
+      <% } %>
+
+      <% rows.forEach(function (row) { %>
+        <tr>
+          <% columns.forEach(function (column) { %>
+            <td class="uif-align-<%= column.align || 'left' %><%= column.type === 'number' || column.type === 'currency' ? ' uif-num' : '' %><%= column.type === 'text' ? ' uif-strong' : '' %>">
+              <% if (column.type === 'currency') { %>
+                <%= money(row[column.key]) %>
+              <% } else if (column.type === 'number') { %>
+                <%= Number(row[column.key]).toLocaleString('en-IN') %>
+              <% } else if (column.type === 'date') { %>
+                <%= dateText(row[column.key]) %>
+              <% } else if (column.type === 'badge') { %>
+                <span class="uif-badge uif-badge--<%= toneFor[row[column.key]] || 'default' %>">
+                  <span class="uif-badge__dot" aria-hidden="true"></span><%= row[column.key] %>
+                </span>
+              <% } else { %>
+                <%= row[column.key] %>
+              <% } %>
+            </td>
+          <% }); %>
+
+          <% if (actions.length) { %>
+            <td class="uif-align-right">
+              <span class="uif-table__actions">
+                <% actions.forEach(function (action) { %>
+                  <a
+                    class="uif-table__action<%= action.danger ? ' uif-table__action--danger' : '' %>"
+                    href="<%= (action.href || '#').replace(':id', row.id) %>"
+                  ><%= action.label %></a>
+                <% }); %>
+              </span>
+            </td>
+          <% } %>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
