@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';`;
 
 const pillars = [
   {
-    title: 'Copy, do not install',
+    title: 'Source you own, not a dependency',
     body: 'Every component is a single file you own. No runtime dependency, no version conflict, no library upgrade that breaks your layout. Edit it freely once it is in your repo.',
   },
   {
@@ -66,9 +66,9 @@ export default async function HomePage() {
             </h1>
 
             <p className="mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)]">
-              A copy-paste component library for React, Next.js and Angular. One file per component, built on
-              the same design tokens, with React, Next.js and Angular versions of everything —
-              documented prop by prop.
+              A component library you own. One source file per component, built on one set of
+              design tokens, with React, Next.js and Angular versions of everything, documented
+              prop by prop.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -150,7 +150,7 @@ export default async function HomePage() {
                 Library
               </p>
               <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-                {stats.components} components, {stats.variants} copy-paste files.
+                {stats.components} components, {stats.variants} source files.
               </h2>
             </div>
             <Link href="/docs/components" className="text-sm font-medium text-[var(--primary)] hover:underline">

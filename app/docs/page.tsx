@@ -37,9 +37,9 @@ export default function DocsIntroduction() {
 
       <div className="prose-docs mt-5 space-y-4">
         <p>
-          UI Farm is a copy-paste component library for React, Next.js and Angular. It is not published to
+          UI Farm is a component library you own: source files for React, Next.js and Angular. It is not published to
           npm — you copy a component file into your project and own it from that moment. The
-          result is {stats.components} components, {stats.variants} copy-paste files and{' '}
+          result is {stats.components} components, {stats.variants} source files and{' '}
           {stats.dependencies} runtime dependencies.
         </p>
         <p>

@@ -11,7 +11,7 @@ All notable changes to this project are documented here. The format follows
 - 19 components across five categories: Button, Badge, Card, Avatar, Separator,
   Input, Textarea, Select, Switch, Checkbox, Label, Alert, Dialog, Tooltip,
   Progress, Skeleton, Accordion, Tabs, Table.
-- Three copy-paste variants per component: React + TypeScript, React + JavaScript
+- Three source variants per component: React + TypeScript, React + JavaScript
   and Angular + TypeScript.
 - Documentation site built with Next.js App Router and Tailwind CSS v4, with a live
   preview, code tabs, copy buttons, props tables and accessibility notes per

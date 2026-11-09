@@ -1,14 +1,15 @@
 # UI Farm
 
-A copy-paste UI component library for React, Next.js and Angular.
+A component library you own: source files for React, Next.js and Angular that you add to
+your project instead of installing as a package.
 
 UI Farm is not a package you install. It is a set of single-file components and a
-documentation site: you open a component, press **Copy**, and paste it into your own
+documentation site: you open a component, take its source file, and add it to your own
 project. From that moment the code is yours — edit it, extend it, delete the parts you
 do not use. There is no runtime dependency, no version to keep in sync, and no breaking
 release that can break your layout.
 
-**19 components · 57 copy-paste files · 0 dependencies.**
+**19 components · 57 source files · 0 dependencies.**
 
 Live docs: run the site locally with `npm run dev` and open
 [http://localhost:3000](http://localhost:3000).

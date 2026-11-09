@@ -5,7 +5,7 @@ import { getComponentsByCategory, stats } from '@/lib/registry';
 
 export const metadata = {
   title: 'Components',
-  description: 'Every UI Farm component, with live previews and copy-paste code.',
+  description: 'Every UI Farm component, with live previews and the source you add to your project.',
 };
 
 export default function ComponentsIndex() {
@@ -17,7 +17,7 @@ export default function ComponentsIndex() {
       <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Components</h1>
       <p className="mt-3 max-w-2xl text-[var(--muted-foreground)]">
         {stats.components} components, each with a live preview, a props table, accessibility notes
-        and three copy-paste variants — React + TypeScript, React + JavaScript and Angular.
+        and three source variants: React + TypeScript, React + JavaScript and Angular.
       </p>
 
       <div className="mt-10 space-y-12">

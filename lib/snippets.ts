@@ -21,7 +21,7 @@ export type CodeVariant = {
 };
 
 /**
- * Builds the three copy-paste variants for a component:
+ * Builds the three source variants for a component:
  * React + TypeScript, React + JavaScript, Angular + TypeScript.
  */
 export async function getCodeVariants(slug: string): Promise<CodeVariant[]> {

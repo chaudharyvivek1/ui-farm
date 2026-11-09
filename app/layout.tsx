@@ -6,7 +6,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'UI Farm — copy-paste components for React, Next.js and Angular',
+    default: 'UI Farm — components you own for React, Next.js and Angular',
     template: '%s · UI Farm',
   },
   description:
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'UI Farm',
     description:
-      'Copy-paste UI components for React, Next.js and Angular — no dependencies, fully documented.',
+      'UI components for React, Next.js and Angular, delivered as source files you own. No dependencies, fully documented.',
     type: 'website',
   },
 };
