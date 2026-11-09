@@ -16,6 +16,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import { CurrencyInput } from '@/components/ui/currency-input';
+import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+import { DropdownMenu } from '@/components/ui/dropdown-menu';
+import { NumberInput } from '@/components/ui/number-input';
+import { PasswordInput } from '@/components/ui/password-input';
+import { PhoneInput } from '@/components/ui/phone-input';
+import { TextInput } from '@/components/ui/text-input';
 import {
   Dialog,
   DialogClose,
@@ -492,6 +499,204 @@ function DemoSkeleton() {
   );
 }
 
+
+function DemoTextInput() {
+  return (
+    <div className="grid max-w-2xl gap-5 sm:grid-cols-2">
+      <TextInput
+        label="Full name"
+        allowed="alpha"
+        transform="capitalize-words"
+        placeholder="vivek chaudhary"
+        hint="Letters only, capitalised as you type"
+        defaultValue="vivek chaudhary"
+      />
+      <TextInput
+        label="Username"
+        allowed="alphanumeric"
+        allowSpaces={false}
+        maxLength={16}
+        showCount
+        placeholder="vivek_chaudhary"
+      />
+      <TextInput
+        label="OTP"
+        allowed="digits"
+        maxLength={6}
+        showCount
+        placeholder="123456"
+        startIcon={
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" className="size-4" aria-hidden="true">
+            <rect x="4" y="10" width="16" height="10" rx="2" />
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+          </svg>
+        }
+      />
+      <TextInput
+        label="Search invoices"
+        clearable
+        placeholder="INV-2041"
+        defaultValue="INV-2041"
+      />
+      <TextInput
+        label="GSTIN"
+        error="Enter a valid 15-character GSTIN"
+        defaultValue="24ABCDE"
+        className="sm:col-span-2"
+      />
+    </div>
+  );
+}
+
+function DemoNumberInput() {
+  return (
+    <div className="grid max-w-2xl gap-5 sm:grid-cols-2">
+      <NumberInput label="Quantity" min={1} max={99} stepper defaultValue={4} hint="Integers only, 1 to 99" />
+      <NumberInput label="Weight" decimals={2} suffix="kg" thousandSeparator defaultValue={1250.5} />
+      <NumberInput label="Discount" decimals={1} max={100} suffix="%" defaultValue={12.5} />
+      <NumberInput label="Adjustment" allowNegative defaultValue={-250} hint="Negatives allowed" />
+      <NumberInput label="Units sold" thousandSeparator defaultValue={1245678} className="sm:col-span-2" hint="Grouped while blurred: 12,45,678" />
+    </div>
+  );
+}
+
+function DemoCurrencyInput() {
+  return (
+    <div className="grid max-w-2xl gap-5 sm:grid-cols-2">
+      <CurrencyInput label="Invoice amount" defaultValue={124000} />
+      <CurrencyInput label="Advance received" defaultValue={42500.5} />
+      <CurrencyInput label="Adjustment" allowNegative defaultValue={-1500} hint="Refunds can be negative" />
+      <CurrencyInput label="Budget" symbol="$" decimals={2} defaultValue={9800} hint="Any symbol" />
+    </div>
+  );
+}
+
+function DemoPhoneInput() {
+  return (
+    <div className="grid max-w-2xl gap-5 sm:grid-cols-2">
+      <PhoneInput label="Mobile number" defaultValue="9876543210" hint="Digits only, grouped as you type" />
+      <PhoneInput label="Alternate number" countryCode="+971" placeholder="50 123 4567" />
+      <PhoneInput label="Invalid example" error="Enter a 10-digit mobile number" defaultValue="98765" className="sm:col-span-2" />
+    </div>
+  );
+}
+
+function DemoPasswordInput() {
+  return (
+    <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+      <PasswordInput label="Password" showStrength defaultValue="Vrusha2026!" autoComplete="new-password" />
+      <PasswordInput label="Confirm password" error="Passwords do not match" defaultValue="vrusha2026" />
+    </div>
+  );
+}
+
+function DemoDropdownMenu() {
+  return (
+    <div className="flex flex-wrap items-center gap-4">
+      <DropdownMenu
+        trigger={
+          <Button variant="outline" size="sm">
+            Row actions
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" className="size-3.5" aria-hidden="true">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </Button>
+        }
+        sections={[
+          {
+            heading: 'Document',
+            items: [
+              { label: 'View', onClick: () => {} },
+              { label: 'Edit', onClick: () => {}, shortcut: '⌘E' },
+              { label: 'Duplicate', onClick: () => {}, disabled: true },
+            ],
+          },
+          {
+            items: [
+              { label: 'Archive', onClick: () => {} },
+              { label: 'Delete', onClick: () => {}, danger: true, separatorBefore: true },
+            ],
+          },
+        ]}
+      />
+
+      <DropdownMenu
+        align="start"
+        items={[
+          { label: 'Export CSV', onClick: () => {} },
+          { label: 'Export PDF', onClick: () => {} },
+          { label: 'Print', onClick: () => {}, separatorBefore: true },
+        ]}
+        trigger={<Button variant="ghost" size="sm">Export</Button>}
+      />
+    </div>
+  );
+}
+
+type Invoice = {
+  id: string;
+  client: string;
+  amount: number;
+  due: string;
+  status: string;
+};
+
+const invoiceRows: Invoice[] = [
+  { id: 'INV-2041', client: 'Meridian Retail', amount: 124000, due: '2026-10-12', status: 'Paid' },
+  { id: 'INV-2042', client: 'Kavya Textiles', amount: 86500, due: '2026-10-18', status: 'Pending' },
+  { id: 'INV-2043', client: 'Orbit Logistics', amount: 210000, due: '2026-10-21', status: 'Paid' },
+  { id: 'INV-2044', client: 'Sunrise Foods', amount: 42000, due: '2026-09-30', status: 'Overdue' },
+  { id: 'INV-2045', client: 'Anand Motors', amount: 318500, due: '2026-11-02', status: 'Pending' },
+  { id: 'INV-2046', client: 'Prakash Pharma', amount: 74500, due: '2026-10-28', status: 'Paid' },
+  { id: 'INV-2047', client: 'Nair Interiors', amount: 156000, due: '2026-10-05', status: 'Overdue' },
+];
+
+const invoiceColumns: DataTableColumn<Invoice>[] = [
+  { key: 'id', header: 'Invoice', sortable: true, className: 'font-mono text-xs' },
+  { key: 'client', header: 'Client', sortable: true },
+  { key: 'amount', header: 'Amount', type: 'currency', align: 'right', sortable: true },
+  { key: 'due', header: 'Due', type: 'date', hideBelow: 'md', sortable: true },
+  {
+    key: 'status',
+    header: 'Status',
+    type: 'badge',
+    badgeTones: { Paid: 'success', Pending: 'warning', Overdue: 'danger' },
+  },
+];
+
+function DemoDataTable() {
+  const [loading, setLoading] = React.useState(false);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center gap-3">
+        <Button size="sm" variant="outline" onClick={() => setLoading((state) => !state)}>
+          {loading ? 'Show rows' : 'Show loading state'}
+        </Button>
+        <span className="text-xs text-[var(--muted)]">
+          Columns, rows and row actions all come from props.
+        </span>
+      </div>
+
+      <DataTable
+        columns={invoiceColumns}
+        data={invoiceRows}
+        rowKey="id"
+        caption="Invoices raised in October 2026."
+        sortable
+        pageSize={5}
+        loading={loading}
+        empty="No invoices match this filter."
+        actions={[
+          { label: 'View', onClick: () => {} },
+          { label: 'Edit', onClick: () => {} },
+          { label: 'Delete', onClick: () => {}, danger: true },
+        ]}
+      />
+    </div>
+  );
+}
+
 const demos: Record<string, React.ComponentType> = {
   button: DemoButton,
   badge: DemoBadge,
@@ -512,6 +717,13 @@ const demos: Record<string, React.ComponentType> = {
   table: DemoTable,
   progress: DemoProgress,
   skeleton: DemoSkeleton,
+  'text-input': DemoTextInput,
+  'number-input': DemoNumberInput,
+  'currency-input': DemoCurrencyInput,
+  'phone-input': DemoPhoneInput,
+  'password-input': DemoPasswordInput,
+  'dropdown-menu': DemoDropdownMenu,
+  'data-table': DemoDataTable,
 };
 
 export function Demo({ slug }: { slug: string }) {

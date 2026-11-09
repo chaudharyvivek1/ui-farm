@@ -9,7 +9,7 @@ project. From that moment the code is yours — edit it, extend it, delete the p
 do not use. There is no runtime dependency, no version to keep in sync, and no breaking
 release that can break your layout.
 
-**19 components · 57 source files · 0 dependencies.**
+**26 components · 78 source files · 0 dependencies.**
 
 Live docs: run the site locally with `npm run dev` and open
 [http://localhost:3000](http://localhost:3000).
@@ -37,10 +37,10 @@ React and in Angular, and what makes dark and light mode switch without a re-ren
 | Category | Components |
 | --- | --- |
 | Foundation | Button, Badge, Card, Avatar, Separator |
-| Forms | Input, Textarea, Select, Switch, Checkbox, Label |
+| Forms | Input, Text Input, Number Input, Currency Input, Phone Input, Password Input, Textarea, Select, Switch, Checkbox, Label |
 | Feedback | Alert, Dialog, Tooltip, Progress, Skeleton |
-| Navigation | Accordion, Tabs |
-| Data | Table |
+| Navigation | Accordion, Tabs, Dropdown Menu |
+| Data | Table, Data Table |
 
 Each documentation page contains a live preview, the three code variants with a copy
 button, a props table, "when to use it" guidance and the accessibility behaviour.

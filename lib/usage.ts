@@ -188,6 +188,102 @@ import { buttonStyles } from '@/components/ui/button';
 <Skeleton variant="circle" />
 <Skeleton variant="card" />
 <SkeletonText lines={3} />`,
+
+  'text-input': `import { TextInput } from '@/components/ui/text-input';
+
+// letters only, first letter of each word capitalised
+<TextInput
+  label="Full name"
+  allowed="alpha"
+  transform="capitalize-words"
+  onValueChange={setName}
+  placeholder="vivek chaudhary"
+/>
+
+// digits only, capped at six, with a counter
+<TextInput label="OTP" allowed="digits" maxLength={6} showCount />`,
+
+  'number-input': `import { NumberInput } from '@/components/ui/number-input';
+
+// integer field with steppers and bounds
+<NumberInput label="Quantity" min={1} max={99} stepper onValueChange={setQty} />
+
+// float field, two decimals, unit shown inside
+<NumberInput label="Weight" decimals={2} suffix="kg" thousandSeparator />
+
+// 1,24,000 while blurred, raw digits while typing
+<NumberInput label="Units sold" thousandSeparator />`,
+
+  'currency-input': `import { CurrencyInput } from '@/components/ui/currency-input';
+
+<CurrencyInput label="Invoice amount" onValueChange={setAmount} />
+
+// refunds can go negative
+<CurrencyInput label="Adjustment" allowNegative />`,
+
+  'phone-input': `import { PhoneInput } from '@/components/ui/phone-input';
+
+<PhoneInput label="Mobile number" onValueChange={setPhone} />
+// onValueChange receives "9876543210"`,
+
+  'password-input': `import { PasswordInput } from '@/components/ui/password-input';
+
+<PasswordInput
+  label="Password"
+  showStrength
+  autoComplete="new-password"
+  onValueChange={setPassword}
+/>`,
+
+  'dropdown-menu': `import { DropdownMenu } from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
+
+<DropdownMenu
+  trigger={<Button variant="outline" size="sm">Options</Button>}
+  sections={[
+    {
+      heading: 'Document',
+      items: [
+        { label: 'View', onClick: () => view() },
+        { label: 'Duplicate', onClick: () => duplicate(), shortcut: '⌘D' },
+      ],
+    },
+    {
+      items: [
+        { label: 'Archive', onClick: () => archive() },
+        { label: 'Delete', onClick: () => remove(), danger: true, separatorBefore: true },
+      ],
+    },
+  ]}
+/>`,
+
+  'data-table': `import { DataTable, type DataTableColumn } from '@/components/ui/data-table';
+
+const columns: DataTableColumn<Invoice>[] = [
+  { key: 'id', header: 'Invoice', sortable: true },
+  { key: 'client', header: 'Client', sortable: true },
+  { key: 'amount', header: 'Amount', type: 'currency', align: 'right', sortable: true },
+  { key: 'due', header: 'Due', type: 'date', hideBelow: 'md' },
+  { key: 'status', header: 'Status', type: 'badge', badgeTones: {
+      Paid: 'success', Pending: 'warning', Overdue: 'danger',
+  } },
+];
+
+<DataTable
+  columns={columns}
+  data={invoices}
+  rowKey="id"
+  caption="Invoices raised in October 2026."
+  sortable
+  pageSize={10}
+  loading={isLoading}
+  empty="No invoices yet."
+  actions={[
+    { label: 'View', onClick: (row) => open(row.id) },
+    { label: 'Edit', onClick: (row) => edit(row.id) },
+    { label: 'Delete', onClick: (row) => remove(row.id), danger: true },
+  ]}
+/>`,
 };
 
 export function getUsage(slug: string) {

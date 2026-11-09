@@ -4,6 +4,24 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/).
 
+## [0.2.0] — 2026-11-09
+
+### Added
+
+- Field components: TextInput (character filtering, casing transforms, counter,
+  clear button), NumberInput (integer and float, min/max, decimals, steppers,
+  grouped thousands), CurrencyInput, PhoneInput and PasswordInput, all sharing a
+  Field wrapper for label, hint and error.
+- `input-utils.ts`: onlyDigits, onlyAlpha, onlyAlphaNumeric, capitalizeWords,
+  capitalizeFirst, sanitizeNumber, toNumber, toInt, toFloat, clampNumber,
+  formatIndianNumber, formatNumber, formatCurrency, parseCurrency, formatPhoneIN
+  and validators for email, GSTIN, PAN and Indian mobile numbers.
+- DropdownMenu: sections, shortcuts, destructive items, keyboard navigation.
+- DataTable: columns and data as props, per-column formatting, click-to-sort,
+  client-side paging, skeleton rows, empty state, and an actions column that
+  switches between inline buttons and a menu.
+- Angular versions of all seven new components.
+
 ## [0.1.0] — 2026-11-09
 
 ### Added
