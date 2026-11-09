@@ -2,7 +2,7 @@
  * card — JavaScript version.
  * Generated from the TypeScript source by scripts/build-snippets.mjs.
  */
-const surface = "rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm";
+const surface = "rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm";
 function Card({ interactive = false, className = "", ...props }) {
   return <div
     className={[

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 const surface =
-  'rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-sm';
+  'rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-sm';
 
 export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
   /** Adds a hover lift — use for cards that link somewhere. */

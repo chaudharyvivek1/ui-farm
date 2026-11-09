@@ -51,7 +51,7 @@ export default async function HomePage() {
           aria-hidden="true"
         />
 
-        <div className="relative mx-auto grid w-full max-w-7xl gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-28">
+        <div className="relative mx-auto grid w-full max-w-7xl gap-12 px-5 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-28">
           <div>
             <Badge variant="primary" dot>
               v0.1 · {stats.components} components
@@ -120,7 +120,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-[var(--border)] py-20">
+      <section className="border-b border-[var(--border)] py-16 sm:py-20">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6">
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--primary)]">
             Why this library
@@ -142,7 +142,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-b border-[var(--border)] py-20">
+      <section className="border-b border-[var(--border)] py-16 sm:py-20">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -189,7 +189,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="py-20">
+      <section className="py-16 sm:py-20">
         <div className="mx-auto w-full max-w-3xl px-5 text-center sm:px-6">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             Start with one component.

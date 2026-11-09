@@ -63,7 +63,7 @@ export async function getCodeVariants(slug: string): Promise<CodeVariant[]> {
     },
     {
       id: 'angular',
-      label: 'Angular',
+      label: 'TypeScript',
       framework: 'Angular',
       language: 'ts',
       filename: meta.angularFile,

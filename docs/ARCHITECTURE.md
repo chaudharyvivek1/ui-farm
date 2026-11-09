@@ -44,6 +44,11 @@ JavaScript on a component page is the code tab switcher and the copy button.
 themes into the markup (`--shiki-light` and `--shiki-dark` CSS variables). Switching
 theme is a CSS attribute change — no re-highlight, no hydration cost.
 
+Two settings matter here. `defaultColor: false` stops Shiki from writing inline
+`color` and `background-color`, which would otherwise pin every block to the light
+theme and beat the stylesheet. The JavaScript regex engine replaces the default
+WebAssembly one, so `next build` stays inside roughly 1 GB of memory.
+
 ## Registry
 
 `lib/registry.ts` is a typed array of `ComponentMeta`. It is the single input for:

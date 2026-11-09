@@ -1,6 +1,7 @@
 import 'server-only';
 
 import { createHighlighter, type Highlighter } from 'shiki';
+import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 
 export type CodeLanguage =
   | 'tsx'
@@ -21,6 +22,10 @@ function getHighlighter() {
     highlighterPromise = createHighlighter({
       themes: ['github-dark-default', 'github-light'],
       langs: languages,
+      // The default Oniguruma engine is a WebAssembly build that needs far more
+      // memory than a small CI box has. The JavaScript engine produces the same
+      // tokens and keeps `next build` inside ~1 GB.
+      engine: createJavaScriptRegexEngine(),
     });
   }
   return highlighterPromise;
@@ -37,5 +42,8 @@ export async function highlight(code: string, lang: CodeLanguage = 'tsx') {
   return highlighter.codeToHtml(code.trim(), {
     lang,
     themes: { light: 'github-light', dark: 'github-dark-default' },
+    // Without this, Shiki writes inline `color`/`background-color` for the
+    // light theme and the code block stays light inside a dark page.
+    defaultColor: false,
   });
 }

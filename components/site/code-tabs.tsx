@@ -67,9 +67,13 @@ export function CodeTabs({ variants }: { variants: CodeVariantView[] }) {
 
   if (!current) return null;
 
+  const lineCount = current.plain.split('\n').length;
+  // Roughly 21 lines fit in the capped height at this font size.
+  const scrolls = lineCount > 22;
+
   return (
     <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--border)] px-3 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] px-3 py-2">
         <div role="tablist" aria-label="Code language" className="flex flex-wrap items-center gap-1">
           {variants.map((variant) => {
             const selected = variant.id === active;
@@ -92,7 +96,9 @@ export function CodeTabs({ variants }: { variants: CodeVariantView[] }) {
             );
           })}
         </div>
-        <CopyButton value={current.plain} />
+        <div className="ml-auto">
+          <CopyButton value={current.plain} />
+        </div>
       </div>
 
       <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] bg-[var(--surface-muted)]/40 px-4 py-2">
@@ -100,11 +106,20 @@ export function CodeTabs({ variants }: { variants: CodeVariantView[] }) {
         <span className="text-[11px] text-[var(--muted)]">{current.plain.split('\n').length} lines</span>
       </div>
 
-      <div
-        className="max-h-[32rem] overflow-auto"
-        // Shiki output is generated at build time from local files.
-        dangerouslySetInnerHTML={{ __html: current.html }}
-      />
+      <div className="relative">
+        <div
+          className={scrolls ? 'max-h-[34rem] overflow-auto' : ''}
+          // Shiki output is generated at build time from local files.
+          dangerouslySetInnerHTML={{ __html: current.html }}
+        />
+        {/* Only over a block that actually scrolls, so short files stay clean. */}
+        {scrolls ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[var(--surface)] to-transparent"
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
