@@ -40,6 +40,8 @@ export interface FieldProps {
   required?: boolean;
   /** Id of the control, used to tie the label to it. */
   htmlFor?: string;
+  /** Id applied to the message line, so a control can point aria-describedby at it. */
+  messageId?: string;
   /** Extra classes for the wrapper. */
   className?: string;
   children: React.ReactNode;
@@ -55,6 +57,7 @@ export function Field({
   error,
   required = false,
   htmlFor,
+  messageId,
   className = '',
   children,
 }: FieldProps) {
@@ -73,6 +76,7 @@ export function Field({
 
       {message ? (
         <p
+          id={messageId}
           className={[
             'text-xs leading-relaxed',
             error ? 'text-[var(--danger)]' : 'text-[var(--muted)]',

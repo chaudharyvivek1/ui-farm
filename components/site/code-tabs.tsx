@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { moveTabFocus } from '@/lib/tab-keys';
+
 export type CodeVariantView = {
   id: string;
   label: string;
@@ -74,7 +76,12 @@ export function CodeTabs({ variants }: { variants: CodeVariantView[] }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]">
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--border)] px-3 py-2">
-        <div role="tablist" aria-label="Code language" className="flex flex-wrap items-center gap-1">
+        <div
+          role="tablist"
+          aria-label="Code language"
+          onKeyDown={moveTabFocus}
+          className="flex flex-wrap items-center gap-1"
+        >
           {variants.map((variant) => {
             const selected = variant.id === active;
             return (
@@ -83,6 +90,7 @@ export function CodeTabs({ variants }: { variants: CodeVariantView[] }) {
                 type="button"
                 role="tab"
                 aria-selected={selected}
+                tabIndex={selected ? 0 : -1}
                 onClick={() => setActive(variant.id)}
                 className={[
                   'rounded-full px-3 py-1.5 text-xs font-medium transition-colors',

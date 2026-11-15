@@ -72,6 +72,7 @@ export function TextInput({
   className = '',
   id,
   disabled,
+  required,
   ...props
 }: TextInputProps) {
   const generatedId = React.useId();
@@ -115,7 +116,14 @@ export function TextInput({
   const isDisabled = Boolean(disabled);
 
   return (
-    <Field label={label} hint={hint} error={error} htmlFor={inputId}>
+    <Field
+      label={label}
+      hint={hint}
+      error={error}
+      htmlFor={inputId}
+      required={required}
+      messageId={`${inputId}-message`}
+    >
       <div className="relative flex items-center">
         {startIcon ? (
           <span className="pointer-events-none absolute left-3 flex text-[var(--muted)]">
@@ -129,7 +137,8 @@ export function TextInput({
           onChange={handleChange}
           disabled={isDisabled}
           aria-invalid={hasError || undefined}
-          aria-describedby={error ? `${inputId}-error` : undefined}
+          aria-describedby={error || (!label && hint) ? `${inputId}-message` : undefined}
+          required={required}
           maxLength={maxLength}
           className={fieldClasses(hasError, size, [
             startIcon ? 'pl-10' : '',

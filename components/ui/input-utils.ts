@@ -13,21 +13,24 @@ export function onlyDigits(value: string): string {
   return value.replace(/\D+/g, '');
 }
 
-/** Keeps letters only. `allowSpaces` keeps single spaces between words. */
+/**
+ * Keeps letters only, in any script — Devanagari, Tamil, Bengali, Latin.
+ * `allowSpaces` keeps single spaces between words.
+ */
 export function onlyAlpha(value: string, allowSpaces = true): string {
-  const pattern = allowSpaces ? /[^A-Za-z\s]+/g : /[^A-Za-z]+/g;
+  const pattern = allowSpaces ? /[^\p{L}\s]+/gu : /[^\p{L}]+/gu;
   const cleaned = value.replace(pattern, '');
   return allowSpaces ? cleaned.replace(/\s{2,}/g, ' ') : cleaned;
 }
 
-/** Keeps letters, digits and single spaces. */
+/** Keeps letters and digits in any script, plus single spaces. */
 export function onlyAlphaNumeric(value: string): string {
-  return value.replace(/[^A-Za-z0-9\s]+/g, '').replace(/\s{2,}/g, ' ');
+  return value.replace(/[^\p{L}\p{N}\s]+/gu, '').replace(/\s{2,}/g, ' ');
 }
 
 /** Letters, digits, spaces and the characters commonly used in addresses. */
 export function addressSafe(value: string): string {
-  return value.replace(/[^A-Za-z0-9\s.,\-/#()&']+/g, '');
+  return value.replace(/[^\p{L}\p{N}\s.,\-/#()&']+/gu, '');
 }
 
 /** "vivek chaudhary" → "Vivek Chaudhary". Collapses extra whitespace. */

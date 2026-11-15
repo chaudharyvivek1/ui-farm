@@ -65,6 +65,8 @@ export function DropdownMenu({
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setOpen(false);
+        // Give focus back to the trigger instead of dropping it on <body>.
+        rootRef.current?.querySelector<HTMLElement>('[aria-haspopup="menu"]')?.focus();
         return;
       }
       if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
@@ -73,11 +75,15 @@ export function DropdownMenu({
         menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])') ?? [],
       );
       if (focusable.length === 0) return;
+
+      // Focus can still be on the trigger (a mouse click opens the menu), where
+      // indexOf returns -1: ArrowDown then starts at the top and ArrowUp at the
+      // bottom. Treating -1 as 0 made ArrowUp skip the last item.
       const index = focusable.indexOf(document.activeElement as HTMLElement);
       const next =
         event.key === 'ArrowDown'
-          ? focusable[(index + 1) % focusable.length]
-          : focusable[(index - 1 + focusable.length) % focusable.length];
+          ? focusable[index < 0 ? 0 : (index + 1) % focusable.length]
+          : focusable[index < 0 ? focusable.length - 1 : (index - 1 + focusable.length) % focusable.length];
       next.focus();
     }
 

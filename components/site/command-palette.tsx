@@ -42,6 +42,7 @@ export function CommandPalette() {
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();
@@ -56,6 +57,17 @@ export function CommandPalette() {
       .slice(0, 8);
   }, [query]);
 
+  // Registered once. The handler used to be added again on every render and
+  // never removed, so listeners piled up behind each keystroke.
+  useEffect(() => {
+    function onOpenSearch() {
+      setOpen(true);
+    }
+
+    window.addEventListener(EVENT, onOpenSearch);
+    return () => window.removeEventListener(EVENT, onOpenSearch);
+  }, []);
+
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
@@ -64,7 +76,7 @@ export function CommandPalette() {
         return;
       }
       if (event.key === 'Escape') setOpen(false);
-      if (!open) return;
+      if (!open || results.length === 0) return;
 
       if (event.key === 'ArrowDown') {
         event.preventDefault();
@@ -82,16 +94,21 @@ export function CommandPalette() {
     }
 
     window.addEventListener('keydown', onKeyDown);
-    window.addEventListener(EVENT, () => setOpen(true));
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, results, active, router]);
 
   useEffect(() => {
     if (!open) return;
+
+    returnFocusRef.current = document.activeElement as HTMLElement | null;
     setQuery('');
     setActive(0);
     const timer = window.setTimeout(() => inputRef.current?.focus(), 20);
-    return () => window.clearTimeout(timer);
+
+    return () => {
+      window.clearTimeout(timer);
+      returnFocusRef.current?.focus?.();
+    };
   }, [open]);
 
   useEffect(() => {

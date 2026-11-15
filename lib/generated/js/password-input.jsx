@@ -52,7 +52,14 @@ function PasswordInput({
     if (!isControlled) setInternal(event.target.value);
     onValueChange?.(event.target.value);
   }
-  return <Field label={label} hint={hint} error={error} htmlFor={inputId}>
+  return <Field
+    label={label}
+    hint={hint}
+    error={error}
+    htmlFor={inputId}
+    required={required}
+    messageId={`${inputId}-message`}
+  >
       <div className="relative flex items-center">
         <input
     id={inputId}
@@ -65,6 +72,7 @@ function PasswordInput({
     disabled={disabled}
     placeholder={placeholder}
     aria-invalid={hasError || void 0}
+    aria-describedby={error || !label && hint ? `${inputId}-message` : void 0}
     className={fieldClasses(hasError, size, ["pr-11", className].join(" "))}
   />
         <button
