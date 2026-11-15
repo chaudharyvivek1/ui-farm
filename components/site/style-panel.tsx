@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import { styleSystems, type StyleRow, type StyleSystem } from '@/lib/style-systems';
+import { moveTabFocus } from '@/lib/tab-keys';
 
 function CopyCell({ value }: { value: string }) {
   const [copied, setCopied] = React.useState(false);
@@ -65,6 +66,7 @@ export function StylePanel({
         <div
           role="tablist"
           aria-label="Styling system"
+          onKeyDown={moveTabFocus}
           className="inline-flex flex-wrap items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] p-1"
         >
           {styleSystems.map((entry) => {
@@ -75,6 +77,7 @@ export function StylePanel({
                 type="button"
                 role="tab"
                 aria-selected={selected}
+                tabIndex={selected ? 0 : -1}
                 onClick={() => setSystem(entry.id)}
                 className={[
                   'rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors',

@@ -28,10 +28,20 @@ export function Dialog({
   const isControlled = open !== undefined;
   const isOpen = isControlled ? open : internal;
 
-  function setOpen(next: boolean) {
-    if (!isControlled) setInternal(next);
-    onOpenChange?.(next);
-  }
+  // Stable identity: consumers put setOpen in effect dependencies, and a new
+  // function on every render would re-run their effects (and steal focus).
+  const setOpen = React.useCallback(
+    (next: boolean) => {
+      if (!isControlled) setInternal(next);
+      onOpenChange?.(next);
+    },
+    [isControlled, onOpenChange],
+  );
+
+  const contextValue = React.useMemo(
+    () => ({ open: isOpen, setOpen, titleId }),
+    [isOpen, setOpen, titleId],
+  );
 
   React.useEffect(() => {
     if (!isOpen) return;
@@ -43,7 +53,7 @@ export function Dialog({
   }, [isOpen]);
 
   return (
-    <DialogContext.Provider value={{ open: isOpen, setOpen, titleId }}>
+    <DialogContext.Provider value={contextValue}>
       {children}
     </DialogContext.Provider>
   );
@@ -82,18 +92,65 @@ export function DialogContent({
   const context = React.useContext(DialogContext);
   const panelRef = React.useRef<HTMLDivElement>(null);
   const open = context?.open ?? false;
+  const setOpen = context?.setOpen;
 
+  // Escape closes, and Tab cycles inside the panel so focus cannot leave it.
   React.useEffect(() => {
     if (!open) return;
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') context?.setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen?.(false);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const panel = panelRef.current;
+      if (!panel) return;
+
+      const focusable = Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((element) => element.offsetParent !== null || element === panel);
+
+      if (focusable.length === 0) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const activeElement = document.activeElement;
+
+      if (event.shiftKey && (activeElement === first || activeElement === panel)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     document.addEventListener('keydown', onKeyDown);
-    panelRef.current?.focus();
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [open, context]);
+  }, [open, setOpen]);
+
+  // Focus moves into the panel once, on open, and returns to the trigger on
+  // close. It must not run on every render, or typing in a dialog field would
+  // pull focus back to the panel after a single keystroke.
+  React.useEffect(() => {
+    if (!open) return;
+
+    const previous = document.activeElement as HTMLElement | null;
+    panelRef.current?.focus();
+
+    return () => {
+      if (previous && typeof previous.focus === 'function') previous.focus();
+    };
+  }, [open]);
 
   if (!open) return null;
 

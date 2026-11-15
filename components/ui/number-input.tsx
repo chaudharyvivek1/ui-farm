@@ -149,7 +149,20 @@ export function NumberInput({
     'flex size-7 items-center justify-center rounded-md text-[var(--muted)] transition-colors hover:bg-[var(--surface-muted)] hover:text-[var(--foreground)] disabled:pointer-events-none disabled:opacity-40';
 
   return (
-    <Field label={label} hint={hint} error={error} htmlFor={inputId}>
+    <Field
+      label={label}
+      hint={hint}
+      error={error}
+      htmlFor={inputId}
+      required={required}
+      messageId={`${inputId}-message`}
+    >
+      {/* The visible field may show "12,34,000"; a native form submit should
+          still post the plain number, so it travels in a hidden input. */}
+      {name ? (
+        <input type="hidden" name={name} value={numeric === null ? '' : String(numeric)} />
+      ) : null}
+
       <div className="relative flex items-center">
         {prefix ? (
           <span className="pointer-events-none absolute left-3 text-sm text-[var(--muted)]">
@@ -159,7 +172,6 @@ export function NumberInput({
 
         <input
           id={inputId}
-          name={name}
           required={required}
           inputMode={decimals > 0 ? 'decimal' : 'numeric'}
           autoComplete="off"
@@ -171,6 +183,7 @@ export function NumberInput({
           disabled={disabled}
           placeholder={placeholder}
           aria-invalid={hasError || undefined}
+          aria-describedby={error || (!label && hint) ? `${inputId}-message` : undefined}
           className={fieldClasses(hasError, size, [
             prefix ? 'pl-8' : '',
             suffix || stepper ? 'pr-20' : '',

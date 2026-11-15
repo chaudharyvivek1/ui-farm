@@ -84,7 +84,14 @@ export function PasswordInput({
   }
 
   return (
-    <Field label={label} hint={hint} error={error} htmlFor={inputId}>
+    <Field
+      label={label}
+      hint={hint}
+      error={error}
+      htmlFor={inputId}
+      required={required}
+      messageId={`${inputId}-message`}
+    >
       <div className="relative flex items-center">
         <input
           id={inputId}
@@ -97,6 +104,7 @@ export function PasswordInput({
           disabled={disabled}
           placeholder={placeholder}
           aria-invalid={hasError || undefined}
+          aria-describedby={error || (!label && hint) ? `${inputId}-message` : undefined}
           className={fieldClasses(hasError, size, ['pr-11', className].join(' '))}
         />
         <button

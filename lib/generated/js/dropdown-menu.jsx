@@ -24,6 +24,7 @@ function DropdownMenu({
     function onKeyDown(event) {
       if (event.key === "Escape") {
         setOpen(false);
+        rootRef.current?.querySelector('[aria-haspopup="menu"]')?.focus();
         return;
       }
       if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
@@ -33,7 +34,7 @@ function DropdownMenu({
       );
       if (focusable.length === 0) return;
       const index = focusable.indexOf(document.activeElement);
-      const next = event.key === "ArrowDown" ? focusable[(index + 1) % focusable.length] : focusable[(index - 1 + focusable.length) % focusable.length];
+      const next = event.key === "ArrowDown" ? focusable[index < 0 ? 0 : (index + 1) % focusable.length] : focusable[index < 0 ? focusable.length - 1 : (index - 1 + focusable.length) % focusable.length];
       next.focus();
     }
     document.addEventListener("mousedown", onPointerDown);

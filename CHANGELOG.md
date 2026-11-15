@@ -4,6 +4,38 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [semantic versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- Dialog: the panel no longer re-grabs focus on every parent render, which made a
+  controlled input inside a dialog lose focus after one keystroke. Tab is now kept
+  inside the panel, and focus returns to the trigger on close.
+- Command palette: the `ui-farm:search` listener was added on every render and never
+  removed; it is now registered once and cleaned up. Focus also returns to whatever
+  opened the palette.
+- TextInput, NumberInput, CurrencyInput, PhoneInput and PasswordInput: the error line
+  has an id and `aria-describedby` points at it. TextInput used to reference an id that
+  did not exist.
+- Switch: a visible `label` is now the switch's accessible name via `aria-labelledby`;
+  before, it was dropped and the control announced as an unnamed switch.
+- PhoneInput: the caret stays where you type instead of jumping to the end, and
+  backspace over the formatting space deletes the digit next to it instead of appearing
+  to do nothing.
+- PhoneInput and NumberInput: `name` now travels on a hidden input holding the raw digits
+  or number, so a native form submit no longer posts `98765 43210` or `12,34,000`.
+- Field components: `required` is passed to the label, so the asterisk appears.
+- DataTable: row actions no longer also fire `onRowClick`; a clickable row is reachable
+  by keyboard and activates on Enter or Space; number columns use Indian grouping like
+  currency columns; sorting compares numbers numerically and strings case-insensitively,
+  and keeps empty cells at the bottom.
+- Tabs, CodeTabs and StylePanel: arrow keys (plus Home and End) move between tabs, so
+  the inactive tabs are reachable by keyboard.
+- DropdownMenu: ArrowUp from the trigger opens at the last item instead of the
+  second-to-last, and Escape returns focus to the trigger.
+- `onlyAlpha`, `onlyAlphaNumeric` and `addressSafe` keep letters and digits in any
+  script, so names typed in Devanagari, Tamil or Bengali are no longer stripped.
+
 ## [0.2.0] — 2026-11-09
 
 ### Added

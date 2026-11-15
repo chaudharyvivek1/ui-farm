@@ -28,6 +28,10 @@ export function Switch({
   const isControlled = checked !== undefined;
   const isOn = isControlled ? checked : internal;
 
+  // The visible text is the switch's accessible name, so it needs an id the
+  // button can point at with aria-labelledby.
+  const labelId = `${React.useId()}-label`;
+
   function toggle() {
     const next = !isOn;
     if (!isControlled) setInternal(next);
@@ -44,6 +48,7 @@ export function Switch({
         type="button"
         role="switch"
         aria-checked={isOn}
+        aria-labelledby={label ? labelId : undefined}
         aria-label={label ? undefined : props['aria-label']}
         disabled={disabled}
         onClick={toggle}
@@ -69,7 +74,9 @@ export function Switch({
       {label || description ? (
         <div className="space-y-0.5">
           {label ? (
-            <p className="text-sm font-medium text-[var(--foreground)]">{label}</p>
+            <p id={labelId} className="text-sm font-medium text-[var(--foreground)]">
+              {label}
+            </p>
           ) : null}
           {description ? (
             <p className="text-xs leading-relaxed text-[var(--muted)]">

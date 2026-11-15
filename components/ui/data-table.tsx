@@ -5,7 +5,7 @@ import * as React from 'react';
 import { Badge, type BadgeVariant } from './badge';
 import { DropdownMenu, type DropdownItem } from './dropdown-menu';
 import { Skeleton } from './skeleton';
-import { formatCurrency, formatNumber } from './input-utils';
+import { formatCurrency, formatIndianNumber } from './input-utils';
 
 export type ColumnType = 'text' | 'number' | 'currency' | 'date' | 'badge';
 
@@ -92,7 +92,8 @@ function cellText<T>(row: T, column: DataTableColumn<T>): React.ReactNode {
 
   switch (column.type) {
     case 'number':
-      return formatNumber(value as number);
+      // Grouped the Indian way, matching the currency columns beside it.
+      return formatIndianNumber(value as number);
     case 'currency':
       return formatCurrency(value as number | string);
     case 'date':
@@ -153,8 +154,20 @@ export function DataTable<T extends Record<string, unknown>>({
     copy.sort((a, b) => {
       const left = valueOf(a, sort.key);
       const right = valueOf(b, sort.key);
+
       if (left === right) return 0;
-      const result = (left as never) > (right as never) ? 1 : -1;
+      // Empty cells stay at the bottom in both directions.
+      if (left === null || left === undefined || left === '') return 1;
+      if (right === null || right === undefined || right === '') return -1;
+
+      const result =
+        typeof left === 'number' && typeof right === 'number'
+          ? left - right
+          : String(left).localeCompare(String(right), 'en-IN', {
+              numeric: true,
+              sensitivity: 'base',
+            });
+
       return sort.direction === 'asc' ? result : -result;
     });
     return copy;
@@ -314,10 +327,25 @@ export function DataTable<T extends Record<string, unknown>>({
                     <tr
                       key={keyFor(row, rowIndex)}
                       onClick={onRowClick ? () => onRowClick(row) : undefined}
+                      onKeyDown={
+                        onRowClick
+                          ? (event) => {
+                              // Only the row itself: Enter on an inner button
+                              // belongs to that button.
+                              if (event.target !== event.currentTarget) return;
+                              if (event.key !== 'Enter' && event.key !== ' ') return;
+                              event.preventDefault();
+                              onRowClick(row);
+                            }
+                          : undefined
+                      }
+                      tabIndex={onRowClick ? 0 : undefined}
                       className={[
                         hoverable ? 'transition-colors hover:bg-[var(--surface-muted)]/50' : '',
                         striped && rowIndex % 2 === 1 ? 'bg-[var(--surface-muted)]/25' : '',
-                        onRowClick ? 'cursor-pointer' : '',
+                        onRowClick
+                          ? 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--primary)]/50'
+                          : '',
                       ]
                         .filter(Boolean)
                         .join(' ')}
@@ -346,7 +374,13 @@ export function DataTable<T extends Record<string, unknown>>({
                       ))}
 
                       {hasActions ? (
-                        <td className={[rowPadding, 'text-right'].join(' ')}>
+                        <td
+                          className={[rowPadding, 'text-right'].join(' ')}
+                          // Row actions are their own targets: clicking one must
+                          // not also fire onRowClick on the row.
+                          onClick={(event) => event.stopPropagation()}
+                          onKeyDown={(event) => event.stopPropagation()}
+                        >
                           {renderActions ? (
                             renderActions(row)
                           ) : showMenu ? (

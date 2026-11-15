@@ -22,6 +22,7 @@ function Field({
   error,
   required = false,
   htmlFor,
+  messageId,
   className = "",
   children
 }) {
@@ -35,6 +36,7 @@ function Field({
       {children}
 
       {message ? <p
+    id={messageId}
     className={[
       "text-xs leading-relaxed",
       error ? "text-[var(--danger)]" : "text-[var(--muted)]"

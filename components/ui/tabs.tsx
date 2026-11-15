@@ -45,11 +45,45 @@ export function Tabs({
 
 export function TabsList({
   className = '',
+  onKeyDown,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const listRef = React.useRef<HTMLDivElement>(null);
+
+  // Triggers use a roving tabindex, so arrow keys are the only way to reach
+  // the inactive tabs. Without this they were unreachable by keyboard.
+  function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    onKeyDown?.(event);
+    if (event.defaultPrevented) return;
+
+    const keys = ['ArrowRight', 'ArrowLeft', 'Home', 'End'];
+    if (!keys.includes(event.key)) return;
+
+    const tabs = Array.from(
+      listRef.current?.querySelectorAll<HTMLElement>('[role="tab"]:not([disabled])') ?? [],
+    );
+    if (tabs.length === 0) return;
+
+    const index = tabs.indexOf(document.activeElement as HTMLElement);
+    const from = index < 0 ? 0 : index;
+    let next = from;
+
+    if (event.key === 'ArrowRight') next = (from + 1) % tabs.length;
+    if (event.key === 'ArrowLeft') next = (from - 1 + tabs.length) % tabs.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = tabs.length - 1;
+
+    event.preventDefault();
+    tabs[next].focus();
+    tabs[next].click();
+  }
+
   return (
     <div
+      ref={listRef}
       role="tablist"
+      aria-orientation="horizontal"
+      onKeyDown={handleKeyDown}
       className={[
         'inline-flex flex-wrap items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--surface)] p-1',
         className,

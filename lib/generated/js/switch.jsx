@@ -18,6 +18,7 @@ function Switch({
   const [internal, setInternal] = React.useState(defaultChecked);
   const isControlled = checked !== void 0;
   const isOn = isControlled ? checked : internal;
+  const labelId = `${React.useId()}-label`;
   function toggle() {
     const next = !isOn;
     if (!isControlled) setInternal(next);
@@ -31,6 +32,7 @@ function Switch({
     type="button"
     role="switch"
     aria-checked={isOn}
+    aria-labelledby={label ? labelId : void 0}
     aria-label={label ? void 0 : props["aria-label"]}
     disabled={disabled}
     onClick={toggle}
@@ -52,7 +54,9 @@ function Switch({
       </button>
 
       {label || description ? <div className="space-y-0.5">
-          {label ? <p className="text-sm font-medium text-[var(--foreground)]">{label}</p> : null}
+          {label ? <p id={labelId} className="text-sm font-medium text-[var(--foreground)]">
+              {label}
+            </p> : null}
           {description ? <p className="text-xs leading-relaxed text-[var(--muted)]">
               {description}
             </p> : null}

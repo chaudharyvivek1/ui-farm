@@ -7,7 +7,7 @@ import * as React from "react";
 import { Badge } from "./badge";
 import { DropdownMenu } from "./dropdown-menu";
 import { Skeleton } from "./skeleton";
-import { formatCurrency, formatNumber } from "./input-utils";
+import { formatCurrency, formatIndianNumber } from "./input-utils";
 const alignClass = {
   left: "text-left",
   center: "text-center",
@@ -26,7 +26,7 @@ function cellText(row, column) {
   if (value === null || value === void 0 || value === "") return "\u2014";
   switch (column.type) {
     case "number":
-      return formatNumber(value);
+      return formatIndianNumber(value);
     case "currency":
       return formatCurrency(value);
     case "date":
@@ -78,7 +78,12 @@ function DataTable({
       const left = valueOf(a, sort.key);
       const right = valueOf(b, sort.key);
       if (left === right) return 0;
-      const result = left > right ? 1 : -1;
+      if (left === null || left === void 0 || left === "") return 1;
+      if (right === null || right === void 0 || right === "") return -1;
+      const result = typeof left === "number" && typeof right === "number" ? left - right : String(left).localeCompare(String(right), "en-IN", {
+        numeric: true,
+        sensitivity: "base"
+      });
       return sort.direction === "asc" ? result : -result;
     });
     return copy;
@@ -199,10 +204,17 @@ function DataTable({
     return <tr
       key={keyFor(row, rowIndex)}
       onClick={onRowClick ? () => onRowClick(row) : void 0}
+      onKeyDown={onRowClick ? (event) => {
+        if (event.target !== event.currentTarget) return;
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        onRowClick(row);
+      } : void 0}
+      tabIndex={onRowClick ? 0 : void 0}
       className={[
         hoverable ? "transition-colors hover:bg-[var(--surface-muted)]/50" : "",
         striped && rowIndex % 2 === 1 ? "bg-[var(--surface-muted)]/25" : "",
-        onRowClick ? "cursor-pointer" : ""
+        onRowClick ? "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--primary)]/50" : ""
       ].filter(Boolean).join(" ")}
     >
                       {columns.map((column) => <td
@@ -220,7 +232,11 @@ function DataTable({
                           {column.render ? column.render(row, rowIndex) : cellText(row, column)}
                         </td>)}
 
-                      {hasActions ? <td className={[rowPadding, "text-right"].join(" ")}>
+                      {hasActions ? <td
+      className={[rowPadding, "text-right"].join(" ")}
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
+    >
                           {renderActions ? renderActions(row) : showMenu ? <DropdownMenu
       align="end"
       width="w-44"
